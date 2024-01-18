@@ -1,4 +1,4 @@
-const cliente = {
+let cliente = {
     mesa:"",
     hora:"",
     pedido:[],
@@ -18,7 +18,9 @@ function guardarCliente(){
        return
     }
     
-}
+    //guardando los valores en el objecto de cliente
+    cliente ={...cliente, mesa,hora,};
+
 
 function mostrarAlerta(mensaje){
     const alerta=document.querySelector(".invalid-feedback");
