@@ -21,7 +21,11 @@ function guardarCliente(){
     //guardando los valores en el objecto de cliente
     cliente ={...cliente, mesa,hora,};
 
-
+    //cerrando el modal
+    const modalFormulario=document.querySelector("#formulario");
+    const modal = bootstrap.Modal.getInstance(modalFormulario);
+    modal.hide();
+}
 function mostrarAlerta(mensaje){
     const alerta=document.querySelector(".invalid-feedback");
 
