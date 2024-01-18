@@ -25,7 +25,27 @@ function guardarCliente(){
     const modalFormulario=document.querySelector("#formulario");
     const modal = bootstrap.Modal.getInstance(modalFormulario);
     modal.hide();
+
+    //mostrar las categorias
+    mostrarCategorias();
+
+    //obtener los platillos de la Api
+    obtenerPlatillos();
 }
+
+function mostrarCategorias(){
+    const categorias = document.querySelectorAll(".d-none");
+    categorias.forEach(categoria => categoria.classList.remove("d-none"));
+}
+
+function obtenerPlatillos(){
+    const url=`http://localhost:4000/platillos`;
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(resultado => console.log(resultado))
+        .catch( error => console.log(error))
+}
+
 function mostrarAlerta(mensaje){
     const alerta=document.querySelector(".invalid-feedback");
 
@@ -40,5 +60,4 @@ function mostrarAlerta(mensaje){
             divAlerta.remove()
         }, 3000);
     }
-
 }
