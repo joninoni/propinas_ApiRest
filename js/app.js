@@ -126,7 +126,10 @@ function tomarPedido(producto){
         }
     }
     else{
-       
+        //creamos un nuevo arreglo con los platillos que No se desean eliminar
+        const resultado = pedido.filter( articulo => articulo.id !== producto.id);
+        // el arreglo lo agregamos al arreglo de cliente.pedido
+        cliente.pedido=[...resultado];
     }
     console.log(cliente.pedido);
 }
