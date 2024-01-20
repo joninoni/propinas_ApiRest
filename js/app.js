@@ -68,7 +68,7 @@ function mostrarPlatillos(platillos){
         price.textContent=`$${precio}`;
 
         const category= document.createElement("div");
-        category.classList.add("col-md-4");
+        category.classList.add("col-md-3");
         category.textContent= categoriasObj[categoria];//asignamos de forma dinamica la categoria ejemplo
         //en el objecto global categoriasObj pusimos como llaves 1,2,3 por lo tanto la llave que sea igual
         //al numero de categoria que tiene cada platillo en db.json le asignara el valor correspondiente a esa
@@ -80,12 +80,55 @@ function mostrarPlatillos(platillos){
         //     3:"Postres",
         // }
         //si la categoria es 1 sera Comida;
+
+        const inputCantidad = document.createElement("input");
+        inputCantidad.type="number";
+        inputCantidad.min=0;
+        inputCantidad.value=0;
+        inputCantidad.id=`producto-${id}`
+        inputCantidad.classList.add("form-control");
+        inputCantidad.onchange=function(){
+            const cantidad=parseInt(inputCantidad.value);
+            tomarPedido({...platillo,cantidad})
+        }
+
+        const agregar=document.createElement("div");
+        agregar.classList.add("col-md-2");
+        agregar.appendChild(inputCantidad);
+
         row.appendChild(titulo);
         row.appendChild(price);
         row.appendChild(category);
+        row.appendChild(agregar);
 
         contenido.appendChild(row);
     })
+}
+
+function tomarPedido(producto){
+    let {pedido} = cliente;
+    if(producto.cantidad >0){
+        //verificar si una orden ya existe
+        const existe = pedido.some(articulo => articulo.id === producto.id);
+        if(existe){
+           const pedidoActualizado = pedido.map(articulo => {
+               if(articulo.id === producto.id){//verificamos que orden es
+                    articulo.cantidad = producto.cantidad;//actualizamos la cantidad
+               }
+               return articulo;//retornamos todo el articulo por que tambien necesitaremos la demas informacion
+           })
+           //añadimos el nuevo array a cliente.pedido
+           cliente.pedido=[...pedidoActualizado];//le pasamos el pedido actualizado
+        }
+        else{
+            //si no existe lo agregamos al arreglo 
+            cliente.pedido = [...pedido,producto];
+        }
+    }
+    else{
+       
+    }
+    console.log(cliente.pedido);
 }
 
 function mostrarAlerta(mensaje){
