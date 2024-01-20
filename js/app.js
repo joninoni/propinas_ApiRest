@@ -1,3 +1,6 @@
+//variables
+const contenido = document.querySelector("#resumen .contenido");
+
 let cliente = {
     mesa:"",
     hora:"",
@@ -131,7 +134,41 @@ function tomarPedido(producto){
         // el arreglo lo agregamos al arreglo de cliente.pedido
         cliente.pedido=[...resultado];
     }
-    console.log(cliente.pedido);
+    //mostramos los pedidos en pantalla
+    mostrarOrdenes();
+}
+
+function mostrarOrdenes(){
+    const resumen = document.createElement("div");
+    resumen.classList.add("col-md-6","card","py-5","px-3","shadow");
+
+    const mesa =document.createElement("p");
+    mesa.classList.add("fw-bold");
+    mesa.textContent="Mesa :";
+
+    const mesaSpan=document.createElement("span");
+    mesaSpan.classList.add("fw-normal");
+    mesaSpan.textContent= cliente.mesa;
+    mesa.appendChild(mesaSpan);
+
+    const hora =document.createElement("p");
+    hora.classList.add("fw-bold");
+    hora.textContent="Hora :";
+   
+    const horaSpan=document.createElement("span");
+    horaSpan.classList.add("fw-normal");
+    horaSpan.textContent=cliente.hora;
+    hora.appendChild(horaSpan);
+
+    const heading=document.createElement("h3");
+    heading.classList.add("my-4","text-center");
+    heading.textContent="Platillos Consumidos";
+
+    resumen.appendChild(mesa);
+    resumen.appendChild(hora);
+    resumen.appendChild(heading);
+    
+    contenido.appendChild(resumen);
 }
 
 function mostrarAlerta(mensaje){
