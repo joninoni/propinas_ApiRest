@@ -139,6 +139,8 @@ function tomarPedido(producto){
 }
 
 function mostrarOrdenes(){
+    limpiarHtml();
+    
     const resumen = document.createElement("div");
     resumen.classList.add("col-md-6","card","py-5","px-3","shadow");
 
@@ -167,8 +169,14 @@ function mostrarOrdenes(){
     resumen.appendChild(mesa);
     resumen.appendChild(hora);
     resumen.appendChild(heading);
-    
+
     contenido.appendChild(resumen);
+}
+
+function limpiarHtml(){
+    while(contenido.firstChild){
+        contenido.removeChild(contenido.firstChild);
+    }
 }
 
 function mostrarAlerta(mensaje){
