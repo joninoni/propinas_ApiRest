@@ -88,7 +88,7 @@ function mostrarPlatillos(platillos){
         inputCantidad.type="number";
         inputCantidad.min=0;
         inputCantidad.value=0;
-        inputCantidad.id=`producto-${id}`
+        inputCantidad.id=`producto-${id}`;
         inputCantidad.classList.add("form-control");
         inputCantidad.onchange=function(){
             const cantidad=parseInt(inputCantidad.value);
@@ -109,9 +109,9 @@ function mostrarPlatillos(platillos){
 }
 
 function tomarPedido(producto){
-    
+    //producto hace referencia al pedido o la orden junto con la cantidad
     let {pedido} = cliente;
-    if(producto.cantidad > 0){
+    if(producto.cantidad > 0){//verificamos que haya un valor mayor a cero en el input del formulario
         //verificar si una orden ya existe
         const existe = pedido.some(articulo => articulo.id === producto.id);
         if(existe){
@@ -135,13 +135,20 @@ function tomarPedido(producto){
         // el arreglo lo agregamos al arreglo de cliente.pedido
         cliente.pedido=[...resultado];
     }
-    //mostramos los pedidos en pantalla
-    mostrarOrdenes();
+
+    limpiarHtml();
+
+    if(cliente.pedido.length){//comprueba que haya elementos en el arreglo
+        //mostramos los pedidos en pantalla
+        mostrarOrdenes();
+    }
+    else{
+        //mostramos el mensaje de que aun no hay pedidos
+        textoVacio();
+    }
 }
 
-function mostrarOrdenes(){
-    limpiarHtml();
-    
+function mostrarOrdenes(){ 
     let {pedido} =cliente;
 
     const resumen = document.createElement("div");
@@ -242,11 +249,29 @@ function calcularSubTotal(precio,cantidad){
 }
 
 function eliminarOrden(id){
+    limpiarHtml();
     let {pedido} =  cliente;
 
     const resultado =pedido.filter( articulo => articulo.id !==id);
     cliente.pedido=[...resultado];
-    mostrarOrdenes();
+    
+    if(cliente.pedido.length){
+        mostrarOrdenes();
+    }
+    else{
+        textoVacio();
+    }
+    const productoEliminado=`#producto-${id}`;//es el id del producto
+    inputEliminado=document.querySelector(productoEliminado);//tomamos en base al id el input
+    inputEliminado.value=0;//reiniciamos el input a cero;
+}
+
+function textoVacio(){
+    const contenido = document.querySelector("#resumen .contenido");
+    const texto=document.createElement("p");
+    texto.classList.add("text-center");
+    texto.textContent="Añade los elementos del pedido";
+    contenido.appendChild(texto);
 }
 
 function limpiarHtml(){
