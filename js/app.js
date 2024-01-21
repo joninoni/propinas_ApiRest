@@ -109,8 +109,9 @@ function mostrarPlatillos(platillos){
 }
 
 function tomarPedido(producto){
+    
     let {pedido} = cliente;
-    if(producto.cantidad >0){
+    if(producto.cantidad > 0){
         //verificar si una orden ya existe
         const existe = pedido.some(articulo => articulo.id === producto.id);
         if(existe){
@@ -141,6 +142,8 @@ function tomarPedido(producto){
 function mostrarOrdenes(){
     limpiarHtml();
     
+    let {pedido} =cliente;
+
     const resumen = document.createElement("div");
     resumen.classList.add("col-md-6","card","py-5","px-3","shadow");
 
@@ -166,11 +169,84 @@ function mostrarOrdenes(){
     heading.classList.add("my-4","text-center");
     heading.textContent="Platillos Consumidos";
 
+    //iterar el array del pedido
+    const grupo = document.createElement("ul");
+    grupo.classList.add("list-group");
+
+    pedido.forEach( articulo => {
+        const {nombre,cantidad,id,precio} = articulo;
+        const li = document.createElement("li");
+        li.classList.add("list-group-item");
+
+        const nomber = document.createElement("h4");
+        nomber.classList.add("my-4");
+        nomber.textContent=nombre;
+
+        const cantidadEl=document.createElement("p");
+        cantidadEl.classList.add("fw-bold");
+        cantidadEl.textContent = "Cantidad :";
+
+        const cantidadValor=document.createElement("span");
+        cantidadValor.classList.add("fw-normal");
+        cantidadValor.textContent=cantidad;
+
+        const precioEl=document.createElement("p");
+        precioEl.classList.add("fw-bold");
+        precioEl.textContent = "Precio :";
+
+        const precioValor=document.createElement("span");
+        precioValor.classList.add("fw-normal");
+        precioValor.textContent=`$${precio}`;
+
+        const subTotal=document.createElement("p");
+        subTotal.classList.add("fw-bold");
+        subTotal.textContent = "SubTotal :";
+
+        const subTotalValor=document.createElement("span");
+        subTotalValor.classList.add("fw-normal");
+        subTotalValor.textContent=calcularSubTotal(precio,cantidad);
+
+        //boton para eliminar un articulo
+        const botonEliminar = document.createElement("button");
+        botonEliminar.classList.add("btn","btn-danger");
+        botonEliminar.textContent="Eliminar";
+
+        botonEliminar.onclick=function(){
+            eliminarOrden(id)
+        }
+
+        //agregando valores
+        cantidadEl.appendChild(cantidadValor);
+        precioEl.appendChild(precioValor)
+        subTotal.appendChild(subTotalValor);
+        //agregar a la lista
+        li.appendChild(nomber);
+        li.appendChild(cantidadEl);
+        li.appendChild(precioEl);
+        li.appendChild(subTotal);
+        li.appendChild(botonEliminar);
+        //agregar al grupo
+        grupo.appendChild(li);
+    })
+
     resumen.appendChild(mesa);
     resumen.appendChild(hora);
     resumen.appendChild(heading);
+    resumen.appendChild(grupo);
 
     contenido.appendChild(resumen);
+}
+
+function calcularSubTotal(precio,cantidad){
+    return `$${precio * cantidad}`;
+}
+
+function eliminarOrden(id){
+    let {pedido} =  cliente;
+
+    const resultado =pedido.filter( articulo => articulo.id !==id);
+    cliente.pedido=[...resultado];
+    mostrarOrdenes();
 }
 
 function limpiarHtml(){
