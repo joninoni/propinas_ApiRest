@@ -152,7 +152,11 @@ function mostrarOrdenes(){
     let {pedido} =cliente;
 
     const resumen = document.createElement("div");
-    resumen.classList.add("col-md-6","card","py-5","px-3","shadow");
+    resumen.classList.add("col-md-6","card","py-2","px-3","shadow");
+
+    const heading=document.createElement("h3");
+    heading.classList.add("my-4","text-center");
+    heading.textContent="Platillos Consumidos";
 
     const mesa =document.createElement("p");
     mesa.classList.add("fw-bold");
@@ -171,11 +175,6 @@ function mostrarOrdenes(){
     horaSpan.classList.add("fw-normal");
     horaSpan.textContent=cliente.hora;
     hora.appendChild(horaSpan);
-
-    const heading=document.createElement("h3");
-    heading.classList.add("my-4","text-center");
-    heading.textContent="Platillos Consumidos";
-
     //iterar el array del pedido
     const grupo = document.createElement("ul");
     grupo.classList.add("list-group");
@@ -235,13 +234,14 @@ function mostrarOrdenes(){
         //agregar al grupo
         grupo.appendChild(li);
     })
-
+    resumen.appendChild(heading);
     resumen.appendChild(mesa);
     resumen.appendChild(hora);
-    resumen.appendChild(heading);
     resumen.appendChild(grupo);
 
     contenido.appendChild(resumen);
+
+    formularioPropinas();
 }
 
 function calcularSubTotal(precio,cantidad){
@@ -272,6 +272,24 @@ function textoVacio(){
     texto.classList.add("text-center");
     texto.textContent="Añade los elementos del pedido";
     contenido.appendChild(texto);
+}
+
+function formularioPropinas(){
+    const contenido =document.querySelector("#resumen .contenido");
+
+    const formulario=document.createElement("div");
+    formulario.classList.add("col-md-6","formulario");
+
+    const divFormulario =document.createElement("div");
+    divFormulario.classList.add("card","py-2","px-3","shadow");
+
+    const heading =document.createElement("h3");
+    heading.classList.add("my-4","text-center");
+    heading.textContent="Propina";
+
+    divFormulario.appendChild(heading);
+    formulario.appendChild(divFormulario);
+    contenido.appendChild(formulario);
 }
 
 function limpiarHtml(){
