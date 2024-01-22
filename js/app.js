@@ -294,6 +294,11 @@ function formularioPropinas(){
     radio10.value="10";
     radio10.classList.add("form-check-input");
 
+    //funcion para leer el value del input radio que este checked
+    radio10.onclick=function(){
+        calcularPropina();
+    }
+
     const radio10Label=document.createElement("label");
     radio10Label.textContent="10%";
     radio10Label.classList.add("form-check-label");
@@ -310,6 +315,11 @@ function formularioPropinas(){
     radio25.name="propina";
     radio25.value="25";
     radio25.classList.add("form-check-input");
+
+     //funcion para leer el value del input radio que este checked
+     radio25.onclick=function(){
+        calcularPropina();
+    }
 
     const radio25Label=document.createElement("label");
     radio25Label.textContent="25%";
@@ -328,6 +338,11 @@ function formularioPropinas(){
     radio50.value="50";
     radio50.classList.add("form-check-input");
 
+     //funcion para leer el value del input radio que este checked
+     radio50.onclick=function(){
+        calcularPropina();
+    }
+
     const radio50Label=document.createElement("label");
     radio50Label.textContent="50%";
     radio50Label.classList.add("form-check-label");
@@ -345,6 +360,16 @@ function formularioPropinas(){
 
     formulario.appendChild(divFormulario);
     contenido.appendChild(formulario);
+}
+
+function calcularPropina(){
+    let {pedido} = cliente;
+    let subTotal=0;
+    pedido.forEach(articulo => {
+        subTotal += articulo.cantidad * articulo.precio//obtenemos el subtotal de todos los platillos
+    })
+    //forma en como leemos el value del input de tipo radio
+    const propinaSeleccionada=document.querySelector('[name="propina"]:checked').value
 }
 
 function limpiarHtml(){
