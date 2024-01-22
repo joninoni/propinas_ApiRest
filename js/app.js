@@ -368,8 +368,13 @@ function calcularPropina(){
     pedido.forEach(articulo => {
         subTotal += articulo.cantidad * articulo.precio//obtenemos el subtotal de todos los platillos
     })
+
     //forma en como leemos el value del input de tipo radio
     const propinaSeleccionada=document.querySelector('[name="propina"]:checked').value
+    //calcular la propina
+    const propina=((subTotal * parseInt(propinaSeleccionada) /100));
+    //muestra el total a pagar
+    const total = subTotal + propina;
 }
 
 function limpiarHtml(){
